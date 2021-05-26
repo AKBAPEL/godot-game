@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Xolonium-Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 160
+font_data = ExtResource( 1 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_top = -7.35678
+margin_right = 1022.0
+margin_bottom = 594.643
+custom_fonts/font = SubResource( 1 )
+text = "
+   You lose"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -11,7 +11,7 @@ var fire_direction =  {'front': Vector2(0,speed),
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+var enemy = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,6 +19,7 @@ func _ready():
 	$Control.visible = true
 	$KinematicBody2D.visible = false
 	$Score.visible = false
+	$Node2D.visible = false
 
 
 func _on_Control_gs():
@@ -37,9 +38,9 @@ func make_enemy():
 		var y = rng.randi_range(2,8) 
 		var tile_size = 64
 		var half = tile_size / 2
-		var enemy = enemy_scene.instance()
+		enemy = enemy_scene.instance()
 		enemy.position = Vector2(x * tile_size - half, y * tile_size - half)
-		
+		enemy.connect("lose",self,"final")
 		if not enemy.test_move(Transform2D(0,enemy.position),Vector2(0,0)):
 			add_child(enemy)
 			break
@@ -57,3 +58,24 @@ func on_hit():
 	score += 1
 	$Score/Label2.text = str(score)
 	make_enemy()
+func _physics_process(delta):
+	if enemy:
+		var vec = enemy_go()
+		enemy.move_and_slide(-vec*50)
+	
+	
+	
+	
+func enemy_go():
+	var speed = 1
+	var player = $KinematicBody2D	
+	var move = Vector2(enemy.position) - Vector2(player.position)
+	return move.normalized()
+	
+func final():
+	$TileMap.visible = false
+	$Control.visible = false
+	$KinematicBody2D.visible = false
+	$Score.visible = false
+	$final.visible = true
+		
